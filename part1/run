@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if cabal new-build --enable-profiling part1; then
+    if dist-newstyle/build/x86_64-linux/ghc-9.12.2/part1-0.1.0.0/x/part1/build/part1/part1 $1 +RTS -xc > tmp.asm; then
+        cat < tmp.asm
+        if nasm -O0 tmp.asm; then
+            diff tmp $1
+        fi
+    fi
+fi
